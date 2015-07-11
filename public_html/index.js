@@ -2,8 +2,8 @@
 
 var gl;
 var points = [];
-var nsd = 7;
-var theta = 90;
+var nsd = 5;
+var theta = 180;
 var origin = vec2(0, 0);
 window.onload = function init() {
     var canvas = document.getElementById("gl-canvas");
@@ -14,7 +14,7 @@ window.onload = function init() {
     }
 
     //var vertices = new Float32Array([-1, -1, 0, 1, 1, -1]);
-    var vertices = [vec2(-1, -1), vec2(0, 1), vec2(1, -1)];
+    var vertices = [vec2(-1/2, -1/2), vec2(0, 1/2), vec2(1/2, -1/2)];
     divideTriangle(vertices[0], vertices[1], vertices[2], nsd);
 
     //  Configure WebGL
