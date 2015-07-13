@@ -3,7 +3,7 @@
 var gl;
 var points = [];
 var nsd = 5;
-var theta = 180;
+var theta = 100;
 var origin = vec2(0, 0);
 window.onload = function init() {
     var canvas = document.getElementById("gl-canvas");
