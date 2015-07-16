@@ -2,8 +2,9 @@
 
 var gl;
 var points = [];
-var nsd = 1;
+var nsd = 5;
 var theta = 90;
+var thetaLoc;
 var origin = vec2(0, 0);
 window.onload = function init() {
     var canvas = document.getElementById("gl-canvas");
@@ -42,6 +43,11 @@ window.onload = function init() {
     var vPosition = gl.getAttribLocation(program, "vPosition");
     gl.vertexAttribPointer(vPosition, 2, gl.FLOAT, false, 0, 0);
     gl.enableVertexAttribArray(vPosition);
+    
+    document.getElementById("slider").onchange = function () {
+        theta = 360 - event.srcElement.value;
+    };
+    thetaLoc = gl.getUniformLocation(program, "theta");
 
     render();
 };
@@ -59,7 +65,7 @@ function transform() {
         points[i] = vec2(x, y);
         var rotatedPosition = vec2(x * Math.cos(rad) - y * Math.sin(rad), x * Math.sin(rad) + y * Math.cos(rad));
         points[i] = rotatedPosition;
-    }
+    }    
 }
 
 function triangle(a, b, c) {
@@ -82,5 +88,14 @@ function divideTriangle(a, b, c, count) {
 
 function render() {
     gl.clear(gl.COLOR_BUFFER_BIT);
+    gl.uniform1f(thetaLoc, theta);
+    
     gl.drawArrays(gl.TRIANGLES, 0, points.length);
+    
+    setTimeout(
+            function () {
+                requestAnimFrame(render);
+            },
+            theta
+            );
 }

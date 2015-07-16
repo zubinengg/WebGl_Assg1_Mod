@@ -35,9 +35,9 @@
 
     <body>
         <div>
-            speed 0% <input id="slider" type="range"
-                            min="0" max="100" step="10" value="50" />
-            100%
+            Angle 0 Degree <input id="slider" type="range"
+                            min="0" max="360" step="5" value="50" />
+            360 Degree
         </div>
 
 
@@ -48,11 +48,12 @@
             <option value="1">Spin Faster</option>
             <option value="2">Spin Slower</option>
         </select>
+         <canvas id="gl-canvas" width="512" height="512">
+            Oops ... your browser doesn't support the HTML5 canvas element
+        </canvas>
 
         Demo Box<input type = "text" id = "testValue" style = "width.50px"></input>
 
-        <canvas id="gl-canvas" width="512" height="512">
-            Oops ... your browser doesn't support the HTML5 canvas element
-        </canvas>
+       
     </body>
 </html>
