@@ -17,12 +17,13 @@ window.onload = function init() {
     //var vertices = new Float32Array([-1, -1, 0, 1, 1, -1]);
     var vertices = [vec2(-1/2, -1/2), vec2(0, 1/2), vec2(1/2, -1/2)];
     divideTriangle(vertices[0], vertices[1], vertices[2], nsd);
+    transform();
 
     //  Configure WebGL
     console.log(points.length);
     console.log("testing log");
     console.log(vertices.length);
-    transform();
+    
 
     gl.viewport(0, 0, canvas.width, canvas.height);
     gl.clearColor(1, 1, 0.5, 1.0);
@@ -45,8 +46,11 @@ window.onload = function init() {
     gl.enableVertexAttribArray(vPosition);
     
     document.getElementById("slider").onchange = function () {
-        theta = 360 - event.srcElement.value;
+       thetaLoc = 360 - event.srcElement.value;
     };
+    //transform();
+    console.log("Theta");
+    console.log(theta);
     thetaLoc = gl.getUniformLocation(program, "theta");
 
     render();
@@ -88,14 +92,13 @@ function divideTriangle(a, b, c, count) {
 
 function render() {
     gl.clear(gl.COLOR_BUFFER_BIT);
-    gl.uniform1f(thetaLoc, theta);
-    
-    gl.drawArrays(gl.TRIANGLES, 0, points.length);
-    
+    gl.uniform1f(thetaLoc, theta);    
+    gl.drawArrays(gl.TRIANGLES, 0, points.length);    
     setTimeout(
             function () {
                 requestAnimFrame(render);
             },
             theta
             );
+    
 }
