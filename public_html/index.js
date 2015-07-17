@@ -5,7 +5,7 @@ var gl;
 
 var points = [];
 
-var numTimesToSubdivide = 0;
+var numTimesToSubdivide = 2;
 
 var bufferId;
 
@@ -121,14 +121,24 @@ window.onload = init;
 
 function render()
 {
-//    var vertices = [
-//        vec2(-1 / 2, -1 / 2),
-//        vec2(0 / 2, 1 / 2),
-//        vec2(1 / 2, -1 / 2)
-//    ];
-    var vertices=[];
-    
-    
+    var vertices = [
+        vec2(-1 / 2, -1 / 2),
+        vec2(0 / 2, 1 / 2),
+        vec2(1 / 2, -1 / 2)
+    ];
+//    var vertices = [];
+//    var s_angle = 90;
+//    var length = 1 / 2;
+//    var adder = 360 / sides;
+//    for (var i = 0; i < sides; i++)
+//    {
+//        rad1 = radians(s_angle);
+//        var x = length * Math.cos(rad);
+//        var y = length * Math.sin(rad);
+//        vertices.push(vec2(x,y));
+//        s_angle += adder;
+//    }
+
     points = [];
     //theta = 90;
     divideTriangle(vertices[0], vertices[1], vertices[2],
