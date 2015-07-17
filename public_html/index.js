@@ -97,6 +97,7 @@ function divideTriangle(a, b, c, count)
         divideTriangle(a, ab, ac, count);
         divideTriangle(c, ac, bc, count);
         divideTriangle(b, bc, ab, count);
+        //divideTriangle(ab, bc, ac, count);
     }
 }
 
@@ -121,34 +122,44 @@ window.onload = init;
 
 function render()
 {
-    var vertices = [
-        vec2(-1 / 2, -1 / 2),
-        vec2(0 / 2, 1 / 2),
-        vec2(1 / 2, -1 / 2)
-    ];
-//    var vertices = [];
-//    var s_angle = 90;
-//    var length = 1 / 2;
-//    var adder = 360 / sides;
-//    for (var i = 0; i < sides; i++)
-//    {
-//        rad1 = radians(s_angle);
-//        var x = length * Math.cos(rad);
-//        var y = length * Math.sin(rad);
-//        vertices.push(vec2(x,y));
-//        s_angle += adder;
-//    }
+    var vertices = [];
+    var s_angle = 90;
+    var length = 1;
+    var adder = 360 / sides;
+    for (var i = 0; i < sides; i++)
+    {
+        var rad1 = radians(s_angle);
+        var x = length * Math.cos(rad1);
+        var y = length * Math.sin(rad1);
+        vertices.push(vec2(x, y));
+        s_angle += adder;
+    }
 
-    points = [];
-    //theta = 90;
-    divideTriangle(vertices[0], vertices[1], vertices[2],
+    console.log(vertices.length);
+
+    if (vertices.length == 3)
+    {
+        points = [];        
+        divideTriangle(vertices[0], vertices[1], vertices[2],
+                numTimesToSubdivide);
+        transform();
+    }
+    else
+    {
+        points=[];
+        var num=vertices.length;
+        for(var i=0;i<num;i++)
+        {
+            divideTriangle(vec2(0,0),vertices[i],vertices[(i+1)%num],
             numTimesToSubdivide);
-    transform();
+        }
+        transform();
+    }
+    console.log(points.length);
     gl.bufferSubData(gl.ARRAY_BUFFER, 0, flatten(points));
     gl.clear(gl.COLOR_BUFFER_BIT);
     gl.drawArrays(gl.TRIANGLES, 0, points.length);
-    points = [];
-    //requestAnimFrame(render);
+    points = [];    
 }
 
 
