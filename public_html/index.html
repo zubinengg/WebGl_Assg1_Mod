@@ -24,6 +24,12 @@
             gl_FragColor = vec4( 1.0, 0.0, 0.0, 1.0 );
             }
         </script>
+        <script type="text/javascript">
+            function showValue(newValue)
+            {
+                document.getElementById("slider").innerHTML = newValue;
+            }
+        </script>
 
         <script type="text/javascript" src="./Common/webgl-utils.js"></script>
         <script type="text/javascript" src="./Common/initShaders.js"></script>
@@ -36,12 +42,14 @@
             recursive steps  0 <input id="slider" type="range"
                                       min="0" max="6" step="1" value="2" />
             6
+
         </div>
         <div>
             angle  0 <input id="slider_a" type="range"
                             min="0" max="360" step="5" value="0" />
             360
         </div>
+        Select Shapes
         <select id="mymenu" size="4">
             <option value="0">Triangle</option>
             <option value="1">Square</option>
