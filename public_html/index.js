@@ -63,6 +63,24 @@ function init()
         theta = parseInt(event.target.value);
         render();
     };
+    var m = document.getElementById("mymenu");
+    m.addEventListener("click", function () {
+        switch (m.selectedIndex) {
+            case 0:
+                sides = 3;
+                break;
+            case 1:
+                sides = 4;
+                break;
+            case 2:
+                sides = 5;
+                break;
+            case 3:
+                sides = 6;
+                break;
+        }
+        render();
+    });
 
 
     render();
@@ -139,27 +157,46 @@ function render()
 
     if (vertices.length == 3)
     {
-        points = [];        
+        points = [];
         divideTriangle(vertices[0], vertices[1], vertices[2],
                 numTimesToSubdivide);
         transform();
     }
     else
     {
-        points=[];
-        var num=vertices.length;
-        for(var i=0;i<num;i++)
+        points = [];
+        var num = vertices.length;
+        for (var i = 0; i < num; i++)
         {
-            divideTriangle(vec2(0,0),vertices[i],vertices[(i+1)%num],
-            numTimesToSubdivide);
+            divideTriangle(vec2(0, 0), vertices[i], vertices[(i + 1) % num],
+                    numTimesToSubdivide);
         }
         transform();
     }
+    var length = points.length;
     console.log(points.length);
-    gl.bufferSubData(gl.ARRAY_BUFFER, 0, flatten(points));
-    gl.clear(gl.COLOR_BUFFER_BIT);
-    gl.drawArrays(gl.TRIANGLES, 0, points.length);
-    points = [];    
+    var chunk = 729;
+    if (length <= chunk)
+    {
+
+        gl.bufferSubData(gl.ARRAY_BUFFER, 0, flatten(points));
+        gl.clear(gl.COLOR_BUFFER_BIT);
+        gl.drawArrays(gl.TRIANGLES, 0, points.length);
+    }
+    else
+    {
+        var i, j, temparray;
+        gl.clear(gl.COLOR_BUFFER_BIT);
+        for (i = 0, j = points.length; i < j; i += chunk)
+        {
+            temparray = points.slice(i, i + chunk);
+            gl.bufferSubData(gl.ARRAY_BUFFER, 0, flatten(temparray));
+            gl.drawArrays(gl.TRIANGLES, 0, temparray.length);
+            // do whatever
+        }
+    }
+    points = [];
+
 }
 
 
