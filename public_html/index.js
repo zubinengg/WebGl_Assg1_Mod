@@ -1,5 +1,6 @@
 "use strict";
 
+
 var canvas;
 var gl;
 
@@ -15,25 +16,21 @@ var sides = 3;
 
 var solid_fill = true;
 
-function init()
+window.onload = function init()
 {
-    canvas = document.getElementById("gl-canvas");
+    var canvas = document.getElementById("gl-canvas");
 
     gl = WebGLUtils.setupWebGL(canvas);
     if (!gl) {
         alert("WebGL isn't available");
     }
 
-    //
-    //  Initialize our data for the Sierpinski Gasket
-    //
 
-    // First, initialize the corners of our gasket with three points.
+    var vertices = [-1, -1, 0, 1, 1, -1];
+    var colors = [1, 0, 0, 0, 1, 0, 0, 0, 1];
 
-
-    //
     //  Configure WebGL
-    //
+
     gl.viewport(0, 0, canvas.width, canvas.height);
     gl.clearColor(1.0, 1.0, 1.0, 1.0);
 
@@ -44,17 +41,24 @@ function init()
 
     // Load the data into the GPU
 
-    bufferId = gl.createBuffer();
+    var bufferId = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, bufferId);
-    gl.bufferData(gl.ARRAY_BUFFER, 8 * Math.pow(3, 6), gl.STATIC_DRAW);
-
-
+    gl.bufferData(gl.ARRAY_BUFFER, flatten(vertices), gl.STATIC_DRAW);
 
     // Associate out shader variables with our data buffer
 
     var vPosition = gl.getAttribLocation(program, "vPosition");
     gl.vertexAttribPointer(vPosition, 2, gl.FLOAT, false, 0, 0);
     gl.enableVertexAttribArray(vPosition);
+
+//    var cbufferId = gl.createBuffer();
+//    gl.bindBuffer(gl.ARRAY_BUFFER, cbufferId);
+//    gl.bufferData(gl.ARRAY_BUFFER, flatten(colors), gl.STATIC_DRAW);
+
+
+//    var vColor = gl.getAttribLocation(program, "vColor");
+//    gl.vertexAttribPointer(vColor, 3, gl.FLOAT, false, 0, 0);
+//    gl.enableVertexAttribArray(vColor);
 
     document.getElementById("slider").onchange = function (target) {
         numTimesToSubdivide = parseInt(event.target.value);
@@ -99,9 +103,7 @@ function init()
 
 
     render();
-}
-;
-
+};
 function triangle(a, b, c)
 {
     if (solid_fill)
@@ -161,10 +163,9 @@ function transform() {
     }
 }
 
-window.onload = init;
+//window.onload = init;
+function render() {
 
-function render()
-{
     var vertices = [];
     var s_angle = 90;
     var length = 1;
@@ -200,18 +201,23 @@ function render()
     }
     var length = points.length;
     //console.log(points.length);
-    gl.bufferData(gl.ARRAY_BUFFER, flatten(points), gl.STATIC_DRAW);  
-
+    gl.bufferData(gl.ARRAY_BUFFER, flatten(points), gl.STATIC_DRAW);
 
     //gl.bufferSubData(gl.ARRAY_BUFFER, 0, flatten(points));
     gl.clear(gl.COLOR_BUFFER_BIT);
     if (solid_fill) {
         gl.drawArrays(gl.TRIANGLES, 0, points.length);
-    } else {
+    }
+    else
+    {
         gl.drawArrays(gl.LINES, 0, points.length);
     }
 
     points = [];
+
+
+
+
+//    gl.clear( gl.COLOR_BUFFER_BIT );
+//    gl.drawArrays( gl.TRIANGLES, 0, 3 );
 }
-
-
